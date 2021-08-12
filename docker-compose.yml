@@ -17,5 +17,12 @@ services:
     image: 'bitnami/redis:latest'
     ports:
       - 6379:6379
+    volumes:
+      - redis-data:/data
+      - redis-conf:/usr/local/etc/redis/redis.conf
     environment:
         - ALLOW_EMPTY_PASSWORD=yes
+
+volumes:
+  redis-data:
+  redis-conf:
