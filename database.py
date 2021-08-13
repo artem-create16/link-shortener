@@ -1,14 +1,6 @@
-import asyncio
-import aioredis
+import redis
+
+r = redis.StrictRedis(host='localhost', port=6379, db=0)
+r.mset({"Croatia": "Zagreb", "Bahamas": "Nassau"})
 
 
-async def main():
-    redis = await aioredis.create_redis_pool('redis://localhost')
-    await redis.set('my-key', 'value')
-    value = await redis.get('my-key', encoding='utf-8')
-    print(value)
-
-    redis.close()
-    await redis.wait_closed()
-
-asyncio.run(main())
