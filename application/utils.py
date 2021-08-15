@@ -1,11 +1,9 @@
 import aioredis
 from aiohttp import web
+import validators
 
-# ShortifyRequest = t.Dict({t.Key('url'): t.URL})
-#
-# def fetch_url(data):
-#     try:
-#         data = ShortifyRequest(data)
-#     except t.DataError:
-#         raise web.HTTPBadRequest()
-#     return data['url']
+
+def check_link(link):
+    if not validators.url(link):
+        raise web.HTTPBadRequest(body='URL is not valid')
+    return link
