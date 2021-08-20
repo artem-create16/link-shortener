@@ -1,20 +1,7 @@
 import aiohttp_jinja2
 from aiohttp import web
-from application.utils import check_link
+from application.utils import check_link, shorten_url
 
-
-routes = web.RouteTableDef()
-CHARS = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"
-def encode(num, alphabet=CHARS):
-    if num == 0:
-        return alphabet[0]
-    arr = []
-    base = len(alphabet)
-    while num:
-        num, rem = divmod(num, base)
-        arr.append(alphabet[rem])
-    arr.reverse()
-    return ''.join(arr)
 
 class SiteHandler:
 
@@ -27,14 +14,11 @@ class SiteHandler:
             form = await request.post()
             long_url = form['url']
             check_link(long_url)
-            index = await self._redis.incr("shortify:count")
-            path = encode(index)
-            key = "shortify:{}".format(path)
-            await self._redis.set(key, long_url)
-            url = "http://{host}:{port}/{path}".format(
-                host='localhost',
-                port=1234,
-                path=path)
-
-            return web.json_response({"url": url})
+            if await self._redis.get(long_url):
+                pass
+            else:
+                await self._redis.incr("shortify:count")
+                short_url = shorten_url()
+                await self._redis.set(long_url, short_url)
+            return web.json_response({"url": True})
         return {}
