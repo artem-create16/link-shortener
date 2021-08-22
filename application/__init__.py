@@ -4,6 +4,7 @@ import jinja2
 from aiohttp import web
 from aiohttp_session import setup as setup_session
 from aiohttp_session.redis_storage import RedisStorage
+
 from application.middlewares import setup_middlewares
 from application.routes import setup_routes
 from application.settings import BASE_DIR
