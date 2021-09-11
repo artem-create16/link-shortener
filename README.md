@@ -9,7 +9,7 @@ docker-compose up
 ```
 ## Usage
 Open https://localhost:8080 <br />
-You must see form for your url
-    ![alt text](https://github.com/artem-create16/link-shortener/blob/master/asserts/images/main.png?raw=true)
+You must see form for your url <br />
+    ![alt text](https://github.com/artem-create16/link-shortener/blob/master/asserts/images/main.png?raw=true) <br />
 Past here your url and click "Go" <br />
 You should see a shortened link that you can insert into the search bar
