@@ -14,18 +14,15 @@ class SiteHandler:
             form = await request.post()
             long_url = form['url']
             check_link(long_url)
-            response = await self._redis.get(long_url)
-            if response:
-                return web.json_response({"url": response.decode()})
-            else:
-                await self._redis.incr("shortify:count")
-                short_url = shorten_url()
-                await self._redis.set(short_url, long_url)
-                short_url = "https://{host}:{port}/{path}".format(
-                    host='localhost',
-                    port=8080,
-                    path=short_url)
-                return web.json_response({"url": short_url})
+            await self._redis.incr("shortify:count")
+            record_number = await self._redis.get("shortify:count")
+            short_url = shorten_url(int(record_number))
+            await self._redis.set(short_url, long_url)
+            short_url = "http://{host}:{port}/{path}".format(
+                host='localhost',
+                port=8080,
+                path=short_url)
+            return web.json_response({"url": short_url})
         return {}
 
     async def redirect(self, request):

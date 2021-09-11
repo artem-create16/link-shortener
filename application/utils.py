@@ -1,7 +1,6 @@
-import aioredis
 from aiohttp import web
 import validators
-import datetime
+from hashids import Hashids
 
 
 def check_link(link):
@@ -10,7 +9,7 @@ def check_link(link):
     return link
 
 
-def shorten_url():
-    time_now = datetime.datetime.now()
-    uniq_ending = time_now.strftime('%y%-m%H%M%S%f')
-    return uniq_ending
+def shorten_url(num):
+    hashids = Hashids(salt="Here is my salt150173095")
+    uniq = hashids.encode(num)
+    return uniq
