@@ -4,6 +4,7 @@ Here you can shorten your link
 ## Installation
 ```
 git clone https://github.com/artem-create16/link-shortener.git
+cd link-shortener
 docker-compose build
 docker-compose up
 ```
